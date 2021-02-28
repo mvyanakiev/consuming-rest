@@ -29,14 +29,17 @@ public class ConsumingRestApplication {
     public CommandLineRunner run(RestTemplate restTemplate) throws Exception {
         return args -> {
 
-            for (int i = 0; i < 10; i++) {
-                Quote quote = restTemplate.getForObject(
-                        "https://gturnquist-quoters.cfapps.io/api/random", Quote.class);
-                log.info(quote.toString());
+            for (int i = 0; i < 2; i++) {
+                try {
+                    Quote quote = restTemplate.getForObject(
+                            "https://gturnquist-quoters.cfapps.io/api/random", Quote.class);
+                    log.info(quote.toString());
 
-                TimeUnit.SECONDS.sleep(1);
+                    TimeUnit.SECONDS.sleep(1);
+                } catch (Exception e) {
+                    log.error(e.getMessage());
+                }
             }
         };
     }
-
 }
