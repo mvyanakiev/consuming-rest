@@ -18,6 +18,9 @@ public class ConsumingRestApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(ConsumingRestApplication.class, args);
+
+        System.out.println("debug");
+
     }
 
     @Bean
@@ -29,17 +32,16 @@ public class ConsumingRestApplication {
     public CommandLineRunner run(RestTemplate restTemplate) throws Exception {
         return args -> {
 
-            for (int i = 0; i < 2; i++) {
-                try {
-                    Quote quote = restTemplate.getForObject(
-                            "https://gturnquist-quoters.cfapps.io/api/random", Quote.class);
-                    log.info(quote.toString());
+            try {
+                String quote = restTemplate.getForObject(
+                    "https://petstore.swagger.io/v2/pet/findByStatus?status=available", String.class);
+                log.info(quote.toString());
 
-                    TimeUnit.SECONDS.sleep(1);
-                } catch (Exception e) {
-                    log.error(e.getMessage());
-                }
+                TimeUnit.SECONDS.sleep(1);
+            } catch (Exception e) {
+                log.error(e.getMessage());
             }
+
         };
     }
 }
